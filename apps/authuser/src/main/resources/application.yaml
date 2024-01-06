@@ -1,5 +1,6 @@
 server:
-  port:8087
+  port: 8087
+
 
 spring:
   datasource:
@@ -8,11 +9,11 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: update #Todas as alteraçoes feitas no codigo serao criadas na base de dados
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-      jdbc:
-        lob.non-contextual-creation: true #Desabilita os logs das meta-informaçoes
+      ddl-auto: update
 
     properties:
       hibernate:
         show_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        lob:
+          non-contextual-creation: true
