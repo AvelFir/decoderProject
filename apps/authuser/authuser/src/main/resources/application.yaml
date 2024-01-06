@@ -1,0 +1,18 @@
+server:
+  port:8087
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ead-authuser
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update #Todas as alteraçoes feitas no codigo serao criadas na base de dados
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      jdbc:
+        lob.non-contextual-creation: true #Desabilita os logs das meta-informaçoes
+
+    properties:
+      hibernate:
+        show_sql: true
