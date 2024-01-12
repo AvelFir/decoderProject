@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
+    //O uso de multiplos DTOs é mais conhecido, foi feito com JsonView apenas para mudar a abordagem e praticar outras maneiras
     public interface UserView{
         public static interface RegistrationPost{}
         public static interface UserPut{}
