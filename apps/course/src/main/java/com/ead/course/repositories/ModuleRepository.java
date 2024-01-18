@@ -11,6 +11,6 @@ import java.util.UUID;
 
 public interface ModuleRepository extends JpaRepository<ModuleModel, UUID> {
 
-    @Query(value = "SELECT * FROM TABLE (TB_MODULES) WHERE course_course_id = :courseId",nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_modules WHERE course_course_id = :courseId",nativeQuery = true)
     List<ModuleModel> findAllModulesIntoCourse(@Param("courseId") UUID courseId);
 }
