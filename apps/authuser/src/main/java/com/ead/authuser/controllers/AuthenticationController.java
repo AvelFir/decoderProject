@@ -6,8 +6,7 @@ import com.ead.authuser.enuns.UserType;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,8 @@ import java.time.ZoneId;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
+@Log4j2
 public class AuthenticationController {
-
-    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     UserService userService;
@@ -33,11 +31,14 @@ public class AuthenticationController {
                                                    @Validated(UserDTO.UserView.RegistrationPost.class)
                                                    @JsonView(UserDTO.UserView.RegistrationPost.class
                                                    ) UserDTO userDTO){
+        log.debug("POST registerUser userDto received {}", userDTO.toString());
         if(userService.existsByUserName(userDTO.getUsername())){
+            log.warn("Username {} is Already Taken", userDTO.getUsername());
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
         }
 
         if(userService.existsByEmail(userDTO.getEmail())){
+            log.warn("Email {} is Already Taken", userDTO.getEmail());
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is Already Taken!");
         }
 
@@ -48,6 +49,8 @@ public class AuthenticationController {
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
+        log.debug("POST registerUser userModel saved {}", userModel.toString());
+        log.info("User saved successfully userId {}", userModel.getUserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
 
     }
